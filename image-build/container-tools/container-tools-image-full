@@ -85,6 +85,13 @@ RUN dnf -y install jq container-selinux
 ##----------------------------------
 
 ##----------------------------------
+# Install node and npm
+#
+RUN dnf -y install npm container-selinux
+##----------------------------------
+
+
+##----------------------------------
 # Install Java compiler and runtime
 #
 ## RUN dnf -y install java-1.8.0-openjdk java-11-openjdk java-1.8.0-openjdk-devel wget
