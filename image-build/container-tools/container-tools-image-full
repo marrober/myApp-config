@@ -8,8 +8,6 @@ RUN mkdir /workspace && chmod 777 workspace
 
 ## RUN yum -y install siege
 
-## RUN curl -sL -o /tmp/yq https://github.com/mikefarah/yq/releases/download/v4.25.1/yq_linux_amd64 &&  mv /tmp/yq /usr/local/bin/yq && chmod a+x /usr/local/bin/yq
-
 ##----------------------------------
 # Install git command line
 #
@@ -27,8 +25,8 @@ dnf install -y gh
 ##----------------------------------
 # Install the ArgoCD command line
 #
-## RUN curl -LJO --silent https://github.com/argoproj/argo-cd/releases/download/v2.3.3/argocd-linux-amd64 && \
-## mv /argocd-linux-amd64 /usr/local/bin/argocd && chmod u+x /usr/local/bin/argocd
+RUN curl -LJO --silent https://github.com/argoproj/argo-cd/releases/download/v2.3.3/argocd-linux-amd64 && \
+mv /argocd-linux-amd64 /usr/local/bin/argocd && chmod a+x /usr/local/bin/argocd
 ##----------------------------------
 
 ##----------------------------------
@@ -73,9 +71,9 @@ RUN  dnf update -y
 ##----------------------------------
 # Install podman, buildah and skopeo
 #
-RUN dnf -y install podman container-selinux
-RUN dnf -y install buildah container-selinux
-RUN dnf -y install skopeo container-selinux
+# RUN dnf -y install podman container-selinux
+# RUN dnf -y install buildah container-selinux
+# RUN dnf -y install skopeo container-selinux
 ##----------------------------------
 
 ##----------------------------------
