@@ -15,6 +15,11 @@ RUN dnf install -y git
 ##----------------------------------
 
 ##----------------------------------
+# Install ping and other ip tools
+RUN dnf install -y iputils
+##----------------------------------
+
+##----------------------------------
 # Install the OpenShift oc command line
 # 
 RUN curl -sL -o /tmp/oc.tar.gz https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/openshift-client-linux.tar.gz && \
