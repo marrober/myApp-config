@@ -16,6 +16,8 @@ RUN mkdir /workspace && chmod 777 workspace
 RUN dnf install -y git
 ##----------------------------------
 
+yum install iputils
+
 ##----------------------------------
 # Install gh command line for generating GitHub pull requests etc.
 #
