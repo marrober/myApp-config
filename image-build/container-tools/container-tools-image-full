@@ -25,7 +25,7 @@ dnf install -y gh
 ##----------------------------------
 # Install the ArgoCD command line
 #
-RUN curl -LJO --silent https://github.com/argoproj/argo-cd/releases/download/v2.3.3/argocd-linux-amd64 && \
+RUN curl -LJO --silent https://github.com/argoproj/argo-cd/releases/download/v2.8.1/argocd-linux-amd64 && \
 mv /argocd-linux-amd64 /usr/local/bin/argocd && chmod a+x /usr/local/bin/argocd
 ##----------------------------------
 
