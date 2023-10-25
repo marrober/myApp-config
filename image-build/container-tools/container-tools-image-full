@@ -15,6 +15,12 @@ RUN dnf install -y git
 ##----------------------------------
 
 ##----------------------------------
+# Install GPG command line
+#
+RUN dnf install -y gnupg
+##----------------------------------
+
+##----------------------------------
 # Install gh command line for generating GitHub pull requests etc.
 #
 RUN dnf install -y 'dnf-command(config-manager)' && \
