@@ -21,6 +21,14 @@ RUN dnf install -y gnupg
 ##----------------------------------
 
 ##----------------------------------
+# Install cosign
+#
+RUN curl -O -L "https://github.com/sigstore/cosign/releases/latest/download/cosign-linux-amd64"
+RUN mv cosign-linux-amd64 /usr/local/bin/cosign
+RUN chmod +x /usr/local/bin/cosign
+##----------------------------------
+
+##----------------------------------
 # Install gh command line for generating GitHub pull requests etc.
 #
 RUN dnf install -y 'dnf-command(config-manager)' && \
@@ -48,25 +56,25 @@ rm /tmp/*
 ##----------------------------------
 # Install Tekton command line
 #
-RUN curl -sL -o /tmp/tkn.tar.gz https://github.com/tektoncd/cli/releases/download/v0.23.1/tkn_0.23.1_Linux_x86_64.tar.gz && \
-tar -C /tmp -xf /tmp/tkn.tar.gz --no-same-owner && \
-mv /tmp/tkn /usr/local/bin && \
-chmod +x /usr/local/bin/tkn && \
-rm /tmp/*
+#RUN curl -sL -o /tmp/tkn.tar.gz https://github.com/tektoncd/cli/releases/download/v0.23.1/tkn_0.23.1_Linux_x86_64.tar.gz && \
+#tar -C /tmp -xf /tmp/tkn.tar.gz --no-same-owner && \
+#mv /tmp/tkn /usr/local/bin && \
+#chmod +x /usr/local/bin/tkn && \
+#rm /tmp/*
 ##----------------------------------
 
 ##----------------------------------
 # Install the odo command line
 #
-RUN curl -sL -o /usr/local/bin/odo https://mirror.openshift.com/pub/openshift-v4/clients/odo/latest/odo-linux-amd64 && \
-chmod +x /usr/local/bin/odo
+#RUN curl -sL -o /usr/local/bin/odo https://mirror.openshift.com/pub/openshift-v4/clients/odo/latest/odo-linux-amd64 && \
+#chmod +x /usr/local/bin/odo
 ##----------------------------------
 
 ##----------------------------------
 # Install the KNative command line
 #
-RUN curl -sL -o /usr/local/bin/kn https://storage.googleapis.com/knative-nightly/client/latest/kn-linux-amd64 && \
-chmod +x /usr/local/bin/kn
+#RUN curl -sL -o /usr/local/bin/kn https://storage.googleapis.com/knative-nightly/client/latest/kn-linux-amd64 && \
+#chmod +x /usr/local/bin/kn
 ##----------------------------------
 
 ##----------------------------------
@@ -91,7 +99,7 @@ RUN dnf -y install jq container-selinux
 ##----------------------------------
 # Install node and npm
 #
-RUN dnf -y install npm container-selinux
+#RUN dnf -y install npm container-selinux
 ##----------------------------------
 
 
