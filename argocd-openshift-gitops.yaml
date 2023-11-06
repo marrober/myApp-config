@@ -1,10 +1,10 @@
 apiVersion: argoproj.io/v1beta1
 kind: ArgoCD
 metadata:
-  creationTimestamp: "2023-09-27T14:11:52Z"
+  creationTimestamp: "2023-11-02T10:43:29Z"
   finalizers:
   - argoproj.io/finalizer
-  generation: 2
+  generation: 1
   name: openshift-gitops
   namespace: openshift-gitops
   ownerReferences:
@@ -13,9 +13,9 @@ metadata:
     controller: true
     kind: GitopsService
     name: cluster
-    uid: 41c36ec0-e086-41b5-bff5-470feb52489f
-  resourceVersion: "272392114"
-  uid: 1a90f8dd-f2be-4f9b-9d90-fe800095e330
+    uid: 9bc99766-5f65-40ac-8c53-1b9cdeed8a1f
+  resourceVersion: "806708"
+  uid: 8783cc8e-4ad1-4cec-ac5c-18b78ba327f9
 spec:
   applicationSet:
     resources:
@@ -74,6 +74,7 @@ spec:
     route:
       enabled: false
   rbac:
+    defaultPolicy: ""
     policy: |
       g, system:cluster-admins, role:admin
       g, cluster-admins, role:admin
@@ -133,13 +134,12 @@ spec:
           memory: 128Mi
     provider: dex
   extraConfig:
-   accounts.mark: apiKey, login
+    accounts.mark: 'apiKey, login'
   tls:
     ca: {}
 status:
   applicationController: Running
   applicationSetController: Running
-  host: openshift-gitops-server-openshift-gitops.apps.conroe.demolab.local
   phase: Available
   redis: Running
   repo: Running
