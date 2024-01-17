@@ -54,6 +54,14 @@ rm /tmp/*
 ##----------------------------------
 
 ##----------------------------------
+# Install the yq command line
+#
+RUN curl -sL -o /tmp/yq.tar.gz https://github.com/mikefarah/yq/releases/download/v4.40.5/yq_linux_386.tar.gz && \
+tar -C tmp -xvf /tmp/yq.tar.gz --no-same-owner && \
+mv /tmp/yq_linux_386 /usr/local/bin/yq && \
+chmod +x /usr/local/bin/yq
+
+##----------------------------------
 # Install Tekton command line
 #
 #RUN curl -sL -o /tmp/tkn.tar.gz https://github.com/tektoncd/cli/releases/download/v0.23.1/tkn_0.23.1_Linux_x86_64.tar.gz && \
