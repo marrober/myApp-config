@@ -5,6 +5,7 @@ resources:
 - argo-app.yaml
 - myapp-ci.yaml
 - myapp-ci-production.yaml
+- myapp-ci-production-2.yaml
 - env/myapp-cd-development.yaml
 - env/myapp-cd-qa.yaml
 - env/myapp-cd-production.yaml

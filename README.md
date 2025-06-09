@@ -94,7 +94,6 @@ argocd proj role create-token myapp myapp-sync
 
 echo -n “<token>” | base64
 
-Paste the result in as single line to myapp-ci/main-ci/09-argo-project-config/argocd-auth-token.yaml
 
 Or if the file is not managed by ArgoCD create the secret by hand with :
 
