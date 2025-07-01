@@ -4,27 +4,35 @@ Ensure all solutions are installed and admin passwords are available.
 
 ## Create initial ArgoCD content to create the OCP projects
 
+````bash
 cd ~/data/git-repos/ci-cd/myApp-config
 oc create -k argocd
+````
 
 Create a secret for access to the ACS CI/CD process
 Select the myapp-ci project
 
+````bash
 oc project myapp-ci
+````
 
 Generate the CI/CD token inside ACS. Go to Platform configurations -> Integrations -> Authentication tokens.
 Generate a new CI/CD Scoped token.
 Execute the following command :
 
+````bash
 oc create secret generic acs-secret \
 --from-literal=acs_api_token=<token from above step> \
---from-literal=acs_central_endpoint=<url-for-rhacs-server>:443
+--from-literal=acs_central_endpoint=$(oc get route/central -n stackrox -o jsonpath='{.spec.host}{":443"}')
+````
 
 ## Pull images to the local cluster 
 
 All tasks expect to find the required container images for Tekton in the local registry.
 
 Pull the required images locally using :
+
+````bash
 oc patch configs.imageregistry.operator.openshift.io/cluster --patch '{"spec":{"defaultRoute":true}}' --type=merge
 oc import-image rhel9-nodejs-16 --from=registry.redhat.io/rhel9/nodejs-16 --confirm
 oc import-image terminal --from=quay.io/marrober/devex-terminal-4:full-terminal-1.5 --confirm
@@ -35,20 +43,24 @@ oc import-image s2i-rhel-8 --from=registry.redhat.io/ocp-tools-43-tech-preview/s
 oc import-image gitops-commit-status --from=quay.io/redhat-developer/gitops-commit-status:v0.0.2 --confirm
 oc import-image gosmee --from=quay.io/marrober/gosmee:latest --confirm
 oc import-image oc-cli --from=quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:878b31040c88f3eb56ca2bd2d77fa29128dad732850dd3fe779037ec9643bf02 --confirm
-
+````
 
 ## ArgoCD Configuration
 ### ArgoCD user management 
 
-argocd login --insecure openshift-gitops-server-openshift-gitops.apps.conroe.demolab.local
+````bash
+argocd login --insecure $(oc get route/argocd-server -n openshift-gitops -o jsonpath='{.spec.host}{"\n"}')
 argocd account list
+````
 
 Add the following to the spec section for the object : 
 Kind : ArgoCD 
 Name : openshift-gitops
 Project : openshift-gitops
 
+````bash
 oc get ArgoCD/openshift-gitops -n openshift-gitops -o yaml > argocd-openshift-gitops.yaml
+````
 
 Edit the file as per below.
 
@@ -75,20 +87,20 @@ spec:
      openShiftOAuth: true
    provider: dex
 
+````bash
 oc apply -f  argocd-openshift-gitops.yaml
-
 argocd account update-password --account mark --new-password r3dh4t1!
+````
 
 ## ArgoCD Create role and assign permissions to application
-### Create the role definition
+### Create the role definition and create the permission policy on the role
 
+````bash
 argocd proj role create myapp myapp-sync
-
-# Create the permission policy on the role
 argocd proj role add-policy myapp myapp-sync --action 'sync' --permission allow --object myapp-cd-development
 argocd proj role add-policy myapp myapp-sync --action 'sync' --permission allow --object myapp-cd-qa
-
 argocd proj role create-token myapp myapp-sync
+````
 
 <Copy token>
 
@@ -134,11 +146,6 @@ Fill in the details as :
 	Password : token from above
 	Check the option : Disable TLS certificate validation (insecure)
 Test the integration and save if successful.
-
-## Test base image management
-
-oc create 
-
 
 ## Create a Github access token
 
