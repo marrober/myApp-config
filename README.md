@@ -167,3 +167,14 @@ oc create -f base-image/02-pipelinerun/build-base-image-pipelineRun.yaml
 
 oc create -f main-ci/07-pipelinerun/ci-pipelineRun.yaml
 
+## Get the route for the trigger for source code builds
+
+oc get route/myapp-github-ci-listener -n myapp-ci -o jsonpath='{"http://"}{.spec.host}'
+
+Create a new webhook in the github repo https://github.com/marrober/myApp-source.git pointing to the route.
+
+## Get the route for the trigger for production deployments
+
+oc get route/myapp-github-ci-prod-listener -n myapp-ci -o jsonpath='{"http://"}{.spec.host}' 
+
+Create a new webhook in quay.io/marrober/myapp to trigger a production redeployment when a new image is created.
