@@ -50,7 +50,7 @@ oc import-image oc-cli --from=quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha
 
 ````bash
 argocd login --insecure $(oc get route/argocd-server -n openshift-gitops -o jsonpath='{.spec.host}{"\n"}')
-argocd account list
+argocd account list --insecure
 ````
 
 Add the following to the spec section for the object : 
@@ -157,7 +157,7 @@ oc create -f <filename.yaml>
 
 # Testing
 
-cd ../
+cd ../myapp-ci
 
 ## Test base image management
 
