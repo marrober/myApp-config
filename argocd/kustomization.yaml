@@ -10,3 +10,4 @@ resources:
 - env/myapp-cd-production.yaml
 - myapp-project.yaml
 - baseimage.yaml
+- myapp-ci-dependency-check.yaml
