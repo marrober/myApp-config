@@ -17,7 +17,7 @@ RUN dnf install -y git
 ##----------------------------------
 # Install GPG command line
 #
-RUN dnf install -y gnupg
+## RUN dnf install -y gnupg
 ##----------------------------------
 
 ##----------------------------------
@@ -32,14 +32,14 @@ RUN chmod +x /usr/local/bin/cosign
 # Install gh command line for generating GitHub pull requests etc.
 #
 RUN dnf install -y 'dnf-command(config-manager)' && \
-dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo && \
+dnf config-manager addrepo --from-repofile https://cli.github.com/packages/rpm/gh-cli.repo && \
 dnf install -y gh
 ##----------------------------------
 
 ##----------------------------------
 # Install the ArgoCD command line
 #
-RUN curl -LJO --silent https://github.com/argoproj/argo-cd/releases/download/v2.8.1/argocd-linux-amd64 && \
+RUN curl -LJO --silent https://github.com/argoproj/argo-cd/releases/download/v3.1.1/argocd-linux-amd64 && \
 mv /argocd-linux-amd64 /usr/local/bin/argocd && chmod a+x /usr/local/bin/argocd
 ##----------------------------------
 
@@ -64,7 +64,7 @@ chmod +x /usr/local/bin/yq
 ##----------------------------------
 # Install Tekton command line
 #
-#RUN curl -sL -o /tmp/tkn.tar.gz https://github.com/tektoncd/cli/releases/download/v0.23.1/tkn_0.23.1_Linux_x86_64.tar.gz && \
+#RUN curl -sL -o /tmp/tkn.tar.gz https://github.com/tektoncd/cli/releases/download/v0.42.0/tkn_0.42.0_Linux_x86_64.tar.gz && \
 #tar -C /tmp -xf /tmp/tkn.tar.gz --no-same-owner && \
 #mv /tmp/tkn /usr/local/bin && \
 #chmod +x /usr/local/bin/tkn && \
@@ -130,7 +130,14 @@ ADD ./kubectl-slice/kubectl-slice /usr/local/bin/kubectl-slice
 ADD ./kubectl-slice/LICENSE /usr/local/bin/kubectl-slice-LICENSE
 ADD ./kubectl-slice/README.md /usr/local/bin/kubectl-slice-README.md
 RUN chmod u+x /usr/local/bin/kubectl-slice
-##--------------------------------
+##----------------------------------
+
+##----------------------------------
+# Install roxctl
+#
+COPY roxctl .
+RUN  chmod +x ./roxctl
+##----------------------------------
 
 WORKDIR /workspace
 
