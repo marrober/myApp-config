@@ -1,0 +1,69 @@
+FROM quay.io/buildah/stable:v1.23.1
+
+USER root
+
+RUN curl -sLk https://github.com/yudai/gotty/releases/download/v1.0.1/gotty_linux_amd64.tar.gz | tar xzC /usr/local/bin
+
+RUN mkdir /workspace && chmod 777 workspace
+RUN mkdir /run/containers && chmod 777 /run/containers
+RUN mkdir /home/build/.docker && chmod 777 /home/build/.docker
+
+RUN touch /etc/subgid /etc/subuid \
+&& chmod g=u /etc/subgid /etc/subuid /etc/passwd \
+&& echo build:10000:65536 > /etc/subuid \
+&& echo build:10000:65536 > /etc/subgid
+
+# Use chroot because the default runc does not work when running rootless
+RUN echo "export BUILDAH_ISOLATION=chroot" >> /home/build/.bashrc
+
+# Use VFS because fuse does not work
+RUN mkdir -p /home/build/.config/containers \
+&& (echo '[storage]';echo 'driver = "vfs"') > /home/build/.config/containers/storage.conf
+
+##----------------------------------
+# Install cosign
+#
+RUN curl -O -L "https://github.com/sigstore/cosign/releases/latest/download/cosign-linux-amd64"
+RUN mv cosign-linux-amd64 /usr/local/bin/cosign
+RUN chmod +x /usr/local/bin/cosign
+##----------------------------------
+
+##----------------------------------
+# Install the OpenShift oc command line
+#
+RUN curl -sL -o /tmp/oc.tar.gz https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/openshift-client-linux.tar.gz && \
+tar -C /tmp -xf /tmp/oc.tar.gz --no-same-owner && \
+mv /tmp/oc /usr/local/bin && \
+chmod +x /usr/local/bin/oc && \
+rm /tmp/*
+##----------------------------------
+
+##----------------------------------
+# Install the yq command line
+#
+RUN curl -sL -o /tmp/yq.tar.gz https://github.com/mikefarah/yq/releases/download/v4.49.2/yq_linux_386.tar.gz && \
+tar -C tmp -xvf /tmp/yq.tar.gz --no-same-owner && \
+mv /tmp/yq_linux_386 /usr/local/bin/yq && \
+chmod +x /usr/local/bin/yq
+
+##----------------------------------
+# Update all packages
+RUN  dnf update -y
+##----------------------------------
+
+##----------------------------------
+# Install jq
+#
+RUN dnf -y install jq container-selinux
+##----------------------------------
+
+WORKDIR /home/build
+
+EXPOSE 8080
+
+USER build
+
+ENV HOME=/home/build
+
+ENTRYPOINT ["/usr/local/bin/gotty"]
+CMD ["-w","bash"]

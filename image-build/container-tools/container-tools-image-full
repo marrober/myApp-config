@@ -39,7 +39,7 @@ dnf install -y gh
 ##----------------------------------
 # Install the ArgoCD command line
 #
-RUN curl -LJO --silent https://github.com/argoproj/argo-cd/releases/download/v3.1.1/argocd-linux-amd64 && \
+RUN curl -LJO --silent https://github.com/argoproj/argo-cd/releases/download/v3.2.0/argocd-linux-amd64 && \
 mv /argocd-linux-amd64 /usr/local/bin/argocd && chmod a+x /usr/local/bin/argocd
 ##----------------------------------
 
@@ -56,7 +56,7 @@ rm /tmp/*
 ##----------------------------------
 # Install the yq command line
 #
-RUN curl -sL -o /tmp/yq.tar.gz https://github.com/mikefarah/yq/releases/download/v4.40.5/yq_linux_386.tar.gz && \
+RUN curl -sL -o /tmp/yq.tar.gz https://github.com/mikefarah/yq/releases/download/v4.49.2/yq_linux_386.tar.gz && \
 tar -C tmp -xvf /tmp/yq.tar.gz --no-same-owner && \
 mv /tmp/yq_linux_386 /usr/local/bin/yq && \
 chmod +x /usr/local/bin/yq
@@ -94,7 +94,7 @@ RUN  dnf update -y
 # Install podman, buildah and skopeo
 #
 # RUN dnf -y install podman container-selinux
-# RUN dnf -y install buildah container-selinux
+RUN dnf -y install buildah container-selinux
 # RUN dnf -y install skopeo container-selinux
 ##----------------------------------
 
