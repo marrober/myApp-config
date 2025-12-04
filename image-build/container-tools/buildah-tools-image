@@ -6,6 +6,7 @@ RUN curl -sLk https://github.com/yudai/gotty/releases/download/v1.0.1/gotty_linu
 
 RUN mkdir /workspace && chmod 777 workspace
 RUN mkdir /run/containers && chmod 777 /run/containers
+RUN chmod 777 /home/build
 RUN mkdir /home/build/.docker && chmod 777 /home/build/.docker
 
 RUN touch /etc/subgid /etc/subuid \
