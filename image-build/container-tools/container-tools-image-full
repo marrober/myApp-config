@@ -1,4 +1,4 @@
-FROM fedora
+FROM registry.redhat.io/devspaces/udi-base-rhel9:3.29.1
 
 USER root
 
@@ -93,9 +93,9 @@ RUN  dnf update -y
 ##----------------------------------
 # Install podman, buildah and skopeo
 #
-# RUN dnf -y install podman container-selinux
+RUN dnf -y install podman container-selinux
 RUN dnf -y install buildah container-selinux
-# RUN dnf -y install skopeo container-selinux
+RUN dnf -y install skopeo container-selinux
 ##----------------------------------
 
 ##----------------------------------
