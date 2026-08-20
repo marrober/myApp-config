@@ -33,16 +33,17 @@ RUN chmod +x /usr/local/bin/cosign
 ##----------------------------------
 # Install gh command line for generating GitHub pull requests etc.
 #
-RUN dnf install -y 'dnf-command(config-manager)' && \
-dnf config-manager addrepo --from-repofile https://cli.github.com/packages/rpm/gh-cli.repo && \
-dnf install -y gh
+RUN dnf install -y 'dnf-command(config-manager)'
+RUN dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo
+RUN dnf install -y gh
 ##----------------------------------
 
 ##----------------------------------
 # Install the ArgoCD command line
 #
-RUN curl -LJO --silent https://github.com/argoproj/argo-cd/releases/download/v3.2.0/argocd-linux-amd64 && \
-mv /argocd-linux-amd64 /usr/local/bin/argocd && chmod a+x /usr/local/bin/argocd
+RUN curl -LJO https://github.com/argoproj/argo-cd/releases/download/v3.5.1/argocd-linux-amd64 && \
+mv argocd-linux-amd64 /usr/local/bin/argocd && \
+chmod a+x /usr/local/bin/argocd
 ##----------------------------------
 
 ##----------------------------------
@@ -58,10 +59,9 @@ rm /tmp/*
 ##----------------------------------
 # Install the yq command line
 #
-RUN curl -sL -o /tmp/yq.tar.gz https://github.com/mikefarah/yq/releases/download/v4.49.2/yq_linux_386.tar.gz && \
-tar -C tmp -xvf /tmp/yq.tar.gz --no-same-owner && \
-mv /tmp/yq_linux_386 /usr/local/bin/yq && \
-chmod +x /usr/local/bin/yq
+RUN curl -LJO https://github.com/mikefarah/yq/releases/download/v4.53.4/yq_linux_amd64 && \
+mv yq_linux_amd64 /usr/local/bin/yq && \
+chmod a+x /usr/local/bin/yq
 
 ##----------------------------------
 # Install Tekton command line
@@ -89,7 +89,7 @@ chmod +x /usr/local/bin/yq
 
 ##----------------------------------
 # Update all packages
-RUN  dnf update -y
+RUN  dnf update -y --allowerasing
 ##----------------------------------
 
 ##----------------------------------
@@ -122,8 +122,10 @@ RUN dnf -y install jq container-selinux
 ##----------------------------------
 # Install Kustomize command line
 #
-RUN curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" >> kustomize.sh && \
-chmod u+x kustomize.sh && ./kustomize.sh && mv /kustomize /usr/local/bin/kustomize
+RUN curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" >> kustomize.sh
+RUN chmod u+x kustomize.sh
+RUN ./kustomize.sh 
+RUN mv kustomize /usr/local/bin/kustomize
 ##----------------------------------
 
 ##----------------------------------
